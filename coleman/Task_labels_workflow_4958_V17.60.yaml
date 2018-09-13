@@ -1,0 +1,32 @@
+T0.instruction: 'Mark the features you see.
+
+  If you don''t see any, just click "Done" to move on.
+
+
+  *If you''re not sure what to do, click the "Need some help with this task?" button
+  below.*'
+T0.tools.0.label: Road Blockage
+T0.tools.1.label: Flood
+T0.tools.2.label: Temporary Settlement
+T0.tools.3.details.0.answers.0.label: Minor (less than 20% damaged)
+T0.tools.3.details.0.answers.1.label: Moderate (20 - 60% damaged)
+T0.tools.3.details.0.answers.2.label: Catastrophic (more than 60% damaged)
+T0.tools.3.details.0.question: 'How severe is the damage?
+
+  *(to see examples, please check the Field Guide)*'
+T0.tools.3.label: Structural damage
+T1.answers.0.label: Unclassifiable Image
+T1.answers.1.label: Ocean Only (no land)
+T2.answers.0.label: None
+T2.answers.1.label: Up to 10
+T2.answers.2.label: 10 to 30
+T2.answers.3.label: More than 30
+T2.question: "**Approximately** how many structures are shown in the subject? \n\n\
+  Please include non-temporary structures from the **Before** image as well as any\
+  \ temporary structures in the **After** image. \n\nChoose the answer that best represents\
+  \ your estimate. "
+T3.answers.0.label: Unclassifiable Image
+T3.answers.1.label: Ocean Only (no land)
+T3.question: 'How many structures are in this image?
+
+  (estimated)'
