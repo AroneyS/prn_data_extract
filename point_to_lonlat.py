@@ -83,9 +83,11 @@ for i, row in classifications_all.iterrows():
                     detail_list = eval(row[basename + 'details'])
                     for j in range(len(lon)):
                         detail = list(detail_list[j][0])[0]
-                        if detail != 'None':
-                            detail = int(detail)
-                            coords.append(( lon[j], lat[j], details[detail] ))
+                        if detail == 'None':
+                            detail = 'Unspecified'
+                        else:
+                            detail = details[int(detail)]
+                        coords.append(( lon[j], lat[j], detail ))
                 else:
                     for j in range(len(lon)):
                         coords.append(( lon[j], lat[j] ))
@@ -93,7 +95,7 @@ for i, row in classifications_all.iterrows():
                 outfile.at[i, name] = str(coords)
 
     print('Done: ' + str(i) + '/282,783')
-    if i > 100:
+    if i > 1000:
         break
 
 outfile.to_csv('output_test.csv')
