@@ -7,12 +7,17 @@ import scipy.ndimage
 from ast import literal_eval
 
 try:
-    infile = sys.argv[1]
+    pointfile = sys.argv[1]
 except:
-    infile = "point_extractor_by_frame_example.csv"
+    pointfile = "point_extractor_by_frame_example.csv"
 
 try:
-    metafile = sys.argv[2]
+    questionfile = sys.argv[2]
+except:
+    questionfile = "question_extractor_example.csv"
+
+try:
+    metafile = sys.argv[3]
 except:
     metafile = "test_data/planetary-response-network-and-rescue-global-caribbean-storms-2017-subjects.csv"
 
@@ -44,9 +49,11 @@ def get_coords_mark(markinfo):
     return f_x_lon(mark_x), f_y_lat(mark_y)
 
 
-classifications_all = pd.read_csv(infile)
-#print(classifications_all.head(2))
-#print(classifications_all.columns)
+classifications_points = pd.read_csv(pointfile)
+#print(classifications_points.head(2))
+#print(classifications_points.columns)
+
+classifications_questions = pd.read_csv(questionfile)
 
 # Make subject dictionary with id as key and metadata
 subjects_all = pd.read_csv(metafile)
@@ -55,10 +62,10 @@ for index, row in subjects_all.iterrows():
     subjects_dict[row['subject_id']] = eval(row['metadata'])
 print('Files loaded successfully')
 
-#column_names = classifications_all.columns.values.tolist() + ''
-outfile = classifications_all
-# Iterate through classifications, adding lattitude equivalents
-for i, row in classifications_all.iterrows():
+#column_names = classifications_points.columns.values.tolist() + ''
+points_outfile = classifications_points
+# Iterate through point classifications, finding longitude/lattitude equivalents
+for i, row in classifications_points.iterrows():
     subject_id = row['subject_id']
     markinfo = subjects_dict[subject_id]
     markinfo['x_min'] = 1 #np.ones_like(markinfo['x'])
@@ -92,12 +99,37 @@ for i, row in classifications_all.iterrows():
                     for j in range(len(lon)):
                         coords.append(( lon[j], lat[j] ))
 
-                outfile.at[i, name] = str(coords)
+                points_outfile.at[i, name] = str(coords)
 
     print('Done: ' + str(i) + '/282,783')
     if i > 1000:
         break
 
-outfile.to_csv('output_test.csv')
+points_outfile.to_csv('output_test-points.csv')
 
 
+classifications_questions
+questions_outfile = classifications_questions
+for i, row in classifications_questions:
+    if row['data.None'] == '1.00':
+        print('None')
+    
+    if row['data.none'] == '1.00':
+        print('No structures')
+    if row['data.up-to-10'] == '1.00':
+        print('Up to 10 structures')
+    if row['data.10-to-30'] == '1.00':
+        print('10 to 30 structures')
+    if row['data.more-than-30'] == '1.00':
+        print('More than 30 structures')
+    
+    if row['data.unclassifiable-image'] == '1.00':
+        print('Image unclassifiable')
+    if row['data.ocean-only-no-land'] == '1.00':
+        print('No land visible')
+
+    print('Done: ' + str(i))
+    if i > 1000:
+        break
+
+questions_outfile.to_csv('output_test-questions.csv')
