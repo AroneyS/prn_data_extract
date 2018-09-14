@@ -126,11 +126,8 @@ shortcuts_temp = []
 
 # Iterate through question classifications, consolidating data
 for i, row in classifications_questions.iterrows():
-    if row['data.None'] == 1.00:
-        print('Unspecified')
-    
     # Number of structures visible
-    elif row['data.none'] == 1.00:
+    if row['data.none'] == 1.00:
         temp = row.tolist()
         temp.append('None')
         questions_temp.append(temp)
@@ -150,14 +147,17 @@ for i, row in classifications_questions.iterrows():
     # Shortcuts (no answer to any questions)
     elif row['data.unclassifiable-image'] == 1.00:
         temp = row.tolist()
-        temp.append('Unclassifiable')
+        temp.append(1)
         temp.append('')
         shortcuts_temp.append(temp)
     elif row['data.ocean-only-no-land'] == 1.00:
         temp = row.tolist()
         temp.append('')
-        temp.append('Only Ocean')
+        temp.append(1)
         shortcuts_temp.append(temp)
+
+    elif row['data.None'] == 1.00:
+        print('Unspecified')
 
     print('Done: ' + str(i))
     if i > 1000:
