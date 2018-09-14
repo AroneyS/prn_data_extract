@@ -108,24 +108,34 @@ for i, row in classifications_points.iterrows():
 points_outfile.to_csv('output_test-points.csv')
 '''
 
-questions_outfile = classifications_questions
+column_names = classifications_questions.columns.values.tolist()
+
+column_shortcuts = column_names + ['structures']
+questions_outfile = pd.DataFrame('', columns = columns_questions)
+
+column_questions = column_names + ['unclassifiable', 'only_ocean']
+shortcuts_outfile = pd.DataFrame('', columns = columns_shortcuts)
+
+# Iterate through question classifications, consolidating data
 for i, row in classifications_questions.iterrows():
     if row['data.None'] == 1.00:
+        print('Unspecified')
+    
+    # Number of structures visible
+    elif row['data.none'] == 1.00:
         print('None')
+    elif row['data.up-to-10'] == 1.00:
+        print('<10')
+    elif row['data.10-to-30'] == 1.00:
+        print('10-30')
+    elif row['data.more-than-30'] == 1.00:
+        print('>30')
     
-    if row['data.none'] == 1.00:
-        print('No structures')
-    if row['data.up-to-10'] == 1.00:
-        print('Up to 10 structures')
-    if row['data.10-to-30'] == 1.00:
-        print('10 to 30 structures')
-    if row['data.more-than-30'] == 1.00:
-        print('More than 30 structures')
-    
-    if row['data.unclassifiable-image'] == 1.00:
-        print('Image unclassifiable')
-    if row['data.ocean-only-no-land'] == 1.00:
-        print('No land visible')
+    # Shortcuts (no answer to any questions)
+    elif row['data.unclassifiable-image'] == 1.00:
+        print('Unclassifiable')
+    elif row['data.ocean-only-no-land'] == 1.00:
+        print('Only Ocean')
 
     print('Done: ' + str(i))
     if i > 1000:
