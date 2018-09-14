@@ -34,7 +34,10 @@ def get_coords_mark(markinfo):
 
     return f_x_lon(mark_x), f_y_lat(mark_y)
 
+
 classifications_all = pd.read_csv(infile)
+#print(classifications_all.head(2))
+#print(classifications_all.columns)
 
 # Make subject dictionary with id as key and metadata
 subjects_all = pd.read_csv(metafile)
@@ -43,15 +46,10 @@ for index, row in subjects_all.iterrows():
     subjects_dict[row['subject_id']] = eval(row['metadata'])
 
 
-
-#print(classifications_all.columns)
-#print(subjects_dict[13308116])
-#print(meta["#scene_corner_UL_x"])
-
 #column_names = classifications_all.columns.values.tolist() + ''
 outfile = classifications_all
 # Iterate through classifications, adding lattitude equivalents
-for i, row in enumerate(classifications_all):
+for i, row in classifications_all.iterrows():
     subject_id = row['subject_id']
     markinfo = subjects_dict[subject_id]
 
