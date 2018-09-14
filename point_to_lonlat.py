@@ -114,13 +114,11 @@ base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'tas
 
 column_questions_extras = ['structures']
 column_questions = column_names + column_questions_extras
-questions_outfile = pd.DataFrame(columns = column_questions)
 questions_included_cols = base_columns + column_questions_extras
 questions_temp = []
 
 column_shortcuts_extras = ['unclassifiable', 'only_ocean']
 column_shortcuts = column_names + column_shortcuts_extras
-shortcuts_outfile = pd.DataFrame(columns = column_shortcuts)
 shortcuts_included_cols = base_columns + column_shortcuts_extras
 shortcuts_temp = []
 
@@ -156,6 +154,8 @@ for i, row in classifications_questions.iterrows():
         temp.append(1)
         shortcuts_temp.append(temp)
 
+    # Unsure. Either no answer or an answer of no structures
+    # If former, group with else: to form blanks document
     elif row['data.None'] == 1.00:
         print('Unspecified')
 
@@ -164,7 +164,7 @@ for i, row in classifications_questions.iterrows():
         break
 
 questions_outfile = pd.DataFrame(questions_temp, columns=column_questions)
-questions_outfile[questions_included_cols].to_csv('output_test-questions.csv')
+questions_outfile[questions_included_cols].to_csv('output_test-questions.csv', index=False)
 
 shortcuts_outfile = pd.DataFrame(shortcuts_temp, columns=column_shortcuts)
-shortcuts_outfile[shortcuts_included_cols].to_csv('output_test-shortcuts.csv')
+shortcuts_outfile[shortcuts_included_cols].to_csv('output_test-shortcuts.csv', index=False)
