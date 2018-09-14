@@ -76,14 +76,17 @@ for i, row in classifications_all.iterrows():
                 markinfo['x'] = None
                 markinfo['y'] = None
 
-            if tool == 3:
-                markinfo['details'] = row[basename + 'details']
-
             if markinfo['x'] != None and markinfo['y'] != None:
                 (lon, lat) = get_coords_mark(markinfo)
                 coords = []
-                for j in range(len(lon)):
-                    coords.append((lon[j], lat[j]))
+                if tool == 3:
+                    details = eval(row[basename + 'details'])
+                    for j in range(len(lon)):
+                        detail = list(details[j][0])[0]
+                        coords.append((lon[j], lat[j], detail))
+                else:
+                    for j in range(len(lon)):
+                        coords.append((lon[j], lat[j]))
 
                 outfile.at[i, name] = str(coords)
 
