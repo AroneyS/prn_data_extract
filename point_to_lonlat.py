@@ -82,8 +82,8 @@ for i, row in classifications_all.iterrows():
             if markinfo['x'] != None and markinfo['y'] != None:
                 (lon, lat) = get_coords_mark(markinfo)
                 coords = []
-                for i in range(len(lon)):
-                    coords.append((lon[i], lat[i]))
+                for j in range(len(lon)):
+                    coords.append((lon[j], lat[j]))
 
                 outfile.at[i, name] = str(coords)
 
