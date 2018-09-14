@@ -81,11 +81,12 @@ for i, row in classifications_all.iterrows():
 
             if markinfo['x'] != None and markinfo['y'] != None:
                 (lon, lat) = get_coords_mark(markinfo)
+                coords = []
+                for i in range(len(lon)):
+                    coords.append((lon[i], lat[i]))
 
-                name_lon = name + '_lon'
-                outfile.at[i, name_lon] = str(lon)
-                name_lat = name + '_lat'
-                outfile.at[i, name_lat] = str(lat)
+                outfile.at[i, name] = str(coords)
+
     print('Done: ' + str(i) + '/282,783')
     if i > 1000:
         break
