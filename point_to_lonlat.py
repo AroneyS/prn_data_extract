@@ -80,10 +80,10 @@ for i, row in classifications_all.iterrows():
                 (lon, lat) = get_coords_mark(markinfo)
                 coords = []
                 if tool == 3:
-                    details = eval(row[basename + 'details'])
+                    detail_list = eval(row[basename + 'details'])
                     for j in range(len(lon)):
-                        detail = list(details[j][0])[0]
-                        coords.append((lon[j], lat[j], detail))
+                        detail = list(detail_list[j][0])[0]
+                        coords.append((lon[j], lat[j], details[int(detail)]))
                 else:
                     for j in range(len(lon)):
                         coords.append((lon[j], lat[j]))
@@ -91,7 +91,7 @@ for i, row in classifications_all.iterrows():
                 outfile.at[i, name] = str(coords)
 
     print('Done: ' + str(i) + '/282,783')
-    if i > 1000:
+    if i > 100:
         break
 
 outfile.to_csv('output_test.csv')
