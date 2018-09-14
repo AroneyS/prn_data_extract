@@ -48,13 +48,13 @@ def get_coords_mark(markinfo):
 
     return f_x_lon(mark_x), f_y_lat(mark_y)
 
-
+'''
 classifications_points = pd.read_csv(pointfile)
 #print(classifications_points.head(2))
-#print(classifications_points.columns)
+#print(classifications_points.columns)'''
 
 classifications_questions = pd.read_csv(questionfile)
-
+'''
 # Make subject dictionary with id as key and metadata
 subjects_all = pd.read_csv(metafile)
 subjects_dict = {}
@@ -106,26 +106,25 @@ for i, row in classifications_points.iterrows():
         break
 
 points_outfile.to_csv('output_test-points.csv')
+'''
 
-
-classifications_questions
 questions_outfile = classifications_questions
-for i, row in classifications_questions:
-    if row['data.None'] == '1.00':
+for i, row in classifications_questions.iterrows():
+    if row['data.None'] == 1.00:
         print('None')
     
-    if row['data.none'] == '1.00':
+    if row['data.none'] == 1.00:
         print('No structures')
-    if row['data.up-to-10'] == '1.00':
+    if row['data.up-to-10'] == 1.00:
         print('Up to 10 structures')
-    if row['data.10-to-30'] == '1.00':
+    if row['data.10-to-30'] == 1.00:
         print('10 to 30 structures')
-    if row['data.more-than-30'] == '1.00':
+    if row['data.more-than-30'] == 1.00:
         print('More than 30 structures')
     
-    if row['data.unclassifiable-image'] == '1.00':
+    if row['data.unclassifiable-image'] == 1.00:
         print('Image unclassifiable')
-    if row['data.ocean-only-no-land'] == '1.00':
+    if row['data.ocean-only-no-land'] == 1.00:
         print('No land visible')
 
     print('Done: ' + str(i))
