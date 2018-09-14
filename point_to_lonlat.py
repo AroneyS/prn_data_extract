@@ -44,7 +44,7 @@ subjects_all = pd.read_csv(metafile)
 subjects_dict = {}
 for index, row in subjects_all.iterrows():
     subjects_dict[row['subject_id']] = eval(row['metadata'])
-
+print('Files loaded successfully')
 
 #column_names = classifications_all.columns.values.tolist() + ''
 outfile = classifications_all
@@ -72,9 +72,14 @@ for i, row in classifications_all.iterrows():
 
             if markinfo['x'] != None and markinfo['y'] != None:
                 (lon, lat) = get_coords_mark(markinfo)
-                
-                outfile[i, name + '_lon'] = str(lon)
-                outfile[i, name + '_lat'] = str(lat)
+
+                name_lon = name + '_lon'
+                outfile.at[i, name_lon] = str(lon)
+                name_lat = name + '_lat'
+                outfile.at[i, name_lat] = str(lat)
+    print('Done: ' + str(i) + '/282,783')
+    if i > 1000:
+        break
 
 outfile.to_csv('output_test.csv')
 
