@@ -20,13 +20,13 @@ except:
 
 def get_coords_mark(markinfo):
 
-    mark_x = markinfo['x']
-    mark_y = markinfo['y']
+    mark_x = [float(i) for i in markinfo['x']]
+    mark_y = [float(i) for i in markinfo['y']]
 
-    the_x = np.array([markinfo['x_min'], markinfo['imsize_x_pix']])
-    the_y = np.array([markinfo['y_min'], markinfo['imsize_y_pix']])
-    the_lon = np.array([markinfo['lon_min'], markinfo['lon_max']])
-    the_lat = np.array([markinfo['lat_min'], markinfo['lat_max']])
+    the_x = np.array([markinfo['x_min'], markinfo['imsize_x_pix']], dtype=float)
+    the_y = np.array([markinfo['y_min'], markinfo['imsize_y_pix']], dtype=float)
+    the_lon = np.array([markinfo['lon_min'], markinfo['lon_max']], dtype=float)
+    the_lat = np.array([markinfo['lat_min'], markinfo['lat_max']], dtype=float)
 
     # don't throw an error if the coords are out of bounds, but also don't extrapolate
     f_x_lon = interp1d(the_x, the_lon, bounds_error=False, fill_value=(None, None))
@@ -70,10 +70,11 @@ for i, row in classifications_all.iterrows():
             if tool == 3:
                 markinfo['details'] = row[basename + 'details']
 
-            if markinfo['x'] != None & markinfo['y'] != None:
-                lon, lat = get_coords_mark(markinfo)
-                outfile[i, name + '_lon'] = lon
-                outfile[i, name + '_lat'] = lat
+            if markinfo['x'] != None and markinfo['y'] != None:
+                (lon, lat) = get_coords_mark(markinfo)
+                
+                outfile[i, name + '_lon'] = str(lon)
+                outfile[i, name + '_lat'] = str(lat)
 
 outfile.to_csv('output_test.csv')
 
