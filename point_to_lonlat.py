@@ -109,12 +109,16 @@ points_outfile.to_csv('output_test-points.csv')
 '''
 
 column_names = classifications_questions.columns.values.tolist()
+# classification_id,user_name,user_id,workflow_id,task,created_at,subject_id,extractor,data.10-to-30,data.None,data.aggregation_version,data.more-than-30,data.none,data.ocean-only-no-land,data.unclassifiable-image,data.up-to-10
+base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'task', 'created_at', 'subject_id', 'extractor','data.aggregation_version']
 
 column_shortcuts = column_names + ['structures']
 questions_outfile = pd.DataFrame('', columns = columns_questions)
+questions_included_cols = base_columns + ['structures']
 
 column_questions = column_names + ['unclassifiable', 'only_ocean']
 shortcuts_outfile = pd.DataFrame('', columns = columns_shortcuts)
+shortcuts_included_cols = base_columns + ['unclassifiable', 'only_ocean']
 
 # Iterate through question classifications, consolidating data
 for i, row in classifications_questions.iterrows():
@@ -141,4 +145,5 @@ for i, row in classifications_questions.iterrows():
     if i > 1000:
         break
 
-questions_outfile.to_csv('output_test-questions.csv')
+questions_outfile[questions_included_cols].to_csv('output_test-questions.csv')
+shortcuts_outfile[shortcuts_included_cols].to_csv('output_test-shortcuts.csv')
