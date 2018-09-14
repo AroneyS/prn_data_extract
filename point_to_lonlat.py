@@ -16,6 +16,15 @@ try:
 except:
     metafile = "test_data/planetary-response-network-and-rescue-global-caribbean-storms-2017-subjects.csv"
 
+# the order of tools is from the workflow information - as is the fact the
+# marks are in task T2
+tools = ['Road Blockage', 'Flood', 'Temporary Settlement', 'Structural Damage']
+
+shortcuts = ['Unclassifiable Image', 'Ocean Only (no land)']
+
+# for the structural damage subtask, if it exists
+details = ['Minor', 'Moderate', 'Catastrophic']
+
 
 
 def get_coords_mark(markinfo):
