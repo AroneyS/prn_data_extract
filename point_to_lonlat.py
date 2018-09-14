@@ -52,17 +52,20 @@ outfile = classifications_all
 for i, row in classifications_all.iterrows():
     subject_id = row['subject_id']
     markinfo = subjects_dict[subject_id]
+    markinfo['x_min'] = 1 #np.ones_like(markinfo['x'])
+    markinfo['y_min'] = 1 #np.ones_like(markinfo['y'])
 
     for (tool, name) in [(0, 'blockages'), (1, 'floods'), (2, 'shelters'), (3, 'damage')]:
         for df in [0, 1]:
             #data.frame{1,0}.T0_tool{0,1,2,3}_{x,y}
             basename = 'data.frame' + str(df) + '.T0_tool' + str(tool) + '_'
 
-            markinfo['x'] = eval(row[basename + 'x'])
-            markinfo['y'] = eval(row[basename + 'y'])
-
-            markinfo['x_min'] = 1 #np.ones_like(markinfo['x'])
-            markinfo['y_min'] = 1 #np.ones_like(markinfo['y'])
+            try:
+                markinfo['x'] = eval(row[basename + 'x'])
+                markinfo['y'] = eval(row[basename + 'y'])
+            except:
+                markinfo['x'] = None
+                markinfo['y'] = None
 
             if tool == 3:
                 markinfo['details'] = row[basename + 'details']
