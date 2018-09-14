@@ -112,13 +112,15 @@ column_names = classifications_questions.columns.values.tolist()
 # classification_id,user_name,user_id,workflow_id,task,created_at,subject_id,extractor,data.10-to-30,data.None,data.aggregation_version,data.more-than-30,data.none,data.ocean-only-no-land,data.unclassifiable-image,data.up-to-10
 base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'task', 'created_at', 'subject_id', 'extractor','data.aggregation_version']
 
-column_shortcuts = column_names + ['structures']
-questions_outfile = pd.DataFrame('', columns = columns_questions)
-questions_included_cols = base_columns + ['structures']
+column_questions_extras = ['structures']
+column_questions = column_names + column_questions_extras
+questions_outfile = pd.DataFrame('', columns = column_questions)
+questions_included_cols = base_columns + column_questions_extras
 
-column_questions = column_names + ['unclassifiable', 'only_ocean']
-shortcuts_outfile = pd.DataFrame('', columns = columns_shortcuts)
-shortcuts_included_cols = base_columns + ['unclassifiable', 'only_ocean']
+column_shortcuts_extras = ['unclassifiable', 'only_ocean']
+column_shortcuts = column_names + column_shortcuts_extras
+shortcuts_outfile = pd.DataFrame('', columns = column_shortcuts)
+shortcuts_included_cols = base_columns + column_shortcuts_extras
 
 # Iterate through question classifications, consolidating data
 for i, row in classifications_questions.iterrows():
@@ -127,19 +129,25 @@ for i, row in classifications_questions.iterrows():
     
     # Number of structures visible
     elif row['data.none'] == 1.00:
-        print('None')
+        row.append('None')
+        questions_outfile.append(row)
     elif row['data.up-to-10'] == 1.00:
-        print('<10')
+        row.append('<10')
+        questions_outfile.append(row)
     elif row['data.10-to-30'] == 1.00:
-        print('10-30')
+        row.append('10-30')
+        questions_outfile.append(row)
     elif row['data.more-than-30'] == 1.00:
-        print('>30')
+        row.append('>30')
+        questions_outfile.append(row)
     
     # Shortcuts (no answer to any questions)
     elif row['data.unclassifiable-image'] == 1.00:
-        print('Unclassifiable')
+        row.append('Unclassifiable', '')
+        shortcuts_outfile.append(row)
     elif row['data.ocean-only-no-land'] == 1.00:
-        print('Only Ocean')
+        row.append('', 'Only Ocean')
+        shortcuts_outfile.append(row)
 
     print('Done: ' + str(i))
     if i > 1000:
