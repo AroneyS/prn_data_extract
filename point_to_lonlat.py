@@ -56,7 +56,7 @@ for i, row in classifications_all.iterrows():
     for (tool, name) in [(0, 'blockages'), (1, 'floods'), (2, 'shelters'), (3, 'damage')]:
         for df in [0, 1]:
             #data.frame{1,0}.T0_tool{0,1,2,3}_{x,y}
-            basename = 'data.frame' + df + '.T0_tool' + tool + '_'
+            basename = 'data.frame' + str(df) + '.T0_tool' + str(tool) + '_'
 
             markinfo['x'] = eval(row[basename + 'x'])
             markinfo['y'] = eval(row[basename + 'y'])
