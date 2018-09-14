@@ -79,14 +79,16 @@ for i, row in classifications_all.iterrows():
             if markinfo['x'] != None and markinfo['y'] != None:
                 (lon, lat) = get_coords_mark(markinfo)
                 coords = []
-                if tool == 3:
+                if tool == 3: #Tool 3 is Structural damage which can also include further details
                     detail_list = eval(row[basename + 'details'])
                     for j in range(len(lon)):
                         detail = list(detail_list[j][0])[0]
-                        coords.append((lon[j], lat[j], details[int(detail)]))
+                        if detail != 'None':
+                            detail = int(detail)
+                            coords.append(( lon[j], lat[j], details[detail] ))
                 else:
                     for j in range(len(lon)):
-                        coords.append((lon[j], lat[j]))
+                        coords.append(( lon[j], lat[j] ))
 
                 outfile.at[i, name] = str(coords)
 
