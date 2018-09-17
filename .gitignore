@@ -108,3 +108,5 @@ output_test-shortcuts.csv
 output_test.csv
 outputs/coleman_output.txt.gz
 outputs/headers.txt.gz
+test_data/damage-floods-blockages-shelters-classifications.csv
+test_data/planetary-response-network-and-rescue-global-caribbean-storms-2017-subjects.csv
