@@ -126,8 +126,6 @@ for i, row in classifications_points.iterrows():
                 points_temp.append(temp)
 
     print('Done: ' + str(i) + '/282,783')
-    if i > 1000:
-        break
 
 
 points_outfile = pd.DataFrame(points_temp, columns=column_points)
@@ -194,8 +192,7 @@ for i, row in classifications_questions.iterrows():
         blanks_temp.append
 
     print('Done: ' + str(i))
-    if i > 1000:
-        break
+    
 
 questions_outfile = pd.DataFrame(questions_temp, columns=column_questions)
 filename = 'data_questions_' + str(suffix) + '.csv'
