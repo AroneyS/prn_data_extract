@@ -125,7 +125,7 @@ shortcuts_temp = []
 # Iterate through question classifications, consolidating data
 for i, row in classifications_questions.iterrows():
     # Number of structures visible
-    if row['data.none'] == 1.00:
+    if row['data.None'] == 1.00:
         temp = row.tolist()
         temp.append('None')
         questions_temp.append(temp)
@@ -156,8 +156,8 @@ for i, row in classifications_questions.iterrows():
 
     # Unsure. Either no answer or an answer of no structures
     # If former, group with else: to form blanks document? Or do else: represent those that added points but didnt answer structures
-    elif row['data.None'] == 1.00:
-        print('Unspecified')
+    elif row['data.none'] == 1.00:
+        print('No answer given')
 
     print('Done: ' + str(i))
     if i > 1000:
