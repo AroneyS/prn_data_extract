@@ -115,3 +115,5 @@ planetary-response-network-and-rescue-global-caribbean-storms-2017-subjects.csv
 question_extractor_test.csv
 question_extractor_example.csv
 output_test-blanks.csv
+point_extractor_by_frame_example.csv
+point_extractor_by_frame_test.csv
