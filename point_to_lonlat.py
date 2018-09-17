@@ -49,11 +49,13 @@ def get_coords_mark(markinfo):
     return f_x_lon(mark_x), f_y_lat(mark_y)
 
 
-classifications_points = pd.read_csv(pointfile)
-#print(classifications_points.head(2))
-#print(classifications_points.columns)
+## Classify point questions
 
-classifications_questions = pd.read_csv(questionfile)
+classifications_points = pd.read_csv(pointfile)
+column_names = classifications_points.columns.values.tolist()
+# classification_id,user_name,user_id,workflow_id,task,created_at,subject_id,extractor,data.aggregation_version,data.frame{1/0}.T0_tool{3/2/1/0}_{x/y/details}
+base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'task', 'created_at', 'subject_id', 'extractor','data.aggregation_version']
+
 
 # Make subject dictionary with id as key and metadata
 subjects_all = pd.read_csv(metafile)
@@ -62,8 +64,11 @@ for index, row in subjects_all.iterrows():
     subjects_dict[row['subject_id']] = eval(row['metadata'])
 print('Files loaded successfully')
 
-#column_names = classifications_points.columns.values.tolist() + ''
-points_outfile = classifications_points
+column_points_extras = ['blockages', 'floods', 'shelters', 'damage']
+column_points = column_names + column_points_extras
+points_included_cols = base_columns + column_points_extras
+points_temp = []
+
 # Iterate through point classifications, finding longitude/lattitude equivalents
 for i, row in classifications_points.iterrows():
     subject_id = row['subject_id']
@@ -99,15 +104,33 @@ for i, row in classifications_points.iterrows():
                     for j in range(len(lon)):
                         coords.append(( lon[j], lat[j] ))
 
-                points_outfile.at[i, name] = str(coords)
+                temp = row.tolist()
+                counter = 0
+                while counter < tool:
+                    temp.append('')
+                    counter += 1
+                
+                temp.append(str(coords))
+
+                counter = 0
+                while counter + tool < 3:
+                    temp.append('')
+                    counter += 1
+
+                points_temp.append(temp)
 
     print('Done: ' + str(i) + '/282,783')
     if i > 1000:
         break
 
-points_outfile.to_csv('output_test-points.csv')
+
+points_outfile = pd.DataFrame(points_temp, columns=column_points)
+points_outfile[points_included_cols].to_csv('output_test-points.csv', index=False)
 
 
+## Classify questions, shortcuts and non-answers
+
+classifications_questions = pd.read_csv(questionfile)
 column_names = classifications_questions.columns.values.tolist()
 # classification_id,user_name,user_id,workflow_id,task,created_at,subject_id,extractor,data.10-to-30,data.None,data.aggregation_version,data.more-than-30,data.none,data.ocean-only-no-land,data.unclassifiable-image,data.up-to-10
 base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'task', 'created_at', 'subject_id', 'extractor','data.aggregation_version']
