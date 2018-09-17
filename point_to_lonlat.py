@@ -122,6 +122,10 @@ column_shortcuts = column_names + column_shortcuts_extras
 shortcuts_included_cols = base_columns + column_shortcuts_extras
 shortcuts_temp = []
 
+column_blanks = column_names
+blanks_included_cols = base_columns
+blanks_temp = []
+
 # Iterate through question classifications, consolidating data
 for i, row in classifications_questions.iterrows():
     # Number of structures visible
@@ -154,10 +158,10 @@ for i, row in classifications_questions.iterrows():
         temp.append(1)
         shortcuts_temp.append(temp)
 
-    # Unsure. Either no answer or an answer of no structures
-    # If former, group with else: to form blanks document? Or do else: represent those that added points but didnt answer structures
+    # No answer given
     elif row['data.none'] == 1.00:
-        print('No answer given')
+        temp = row.tolist()
+        blanks_temp.append
 
     print('Done: ' + str(i))
     if i > 1000:
@@ -168,3 +172,6 @@ questions_outfile[questions_included_cols].to_csv('output_test-questions.csv', i
 
 shortcuts_outfile = pd.DataFrame(shortcuts_temp, columns=column_shortcuts)
 shortcuts_outfile[shortcuts_included_cols].to_csv('output_test-shortcuts.csv', index=False)
+
+blanks_outfile = pd.DataFrame(blanks_temp, columns=column_blanks)
+questions_outfile[blanks_included_cols].to_csv('output_test-blanks.csv', index=False)

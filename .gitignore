@@ -102,13 +102,16 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# my_files
 output_test-points.csv
 output_test-questions.csv
 output_test-shortcuts.csv
 output_test.csv
-outputs/coleman_output.txt.gz
-outputs/headers.txt.gz
-test_data/damage-floods-blockages-shelters-classifications.csv
-test_data/planetary-response-network-and-rescue-global-caribbean-storms-2017-subjects.csv
-coleman/question_extractor_test.csv
+coleman_output.txt.gz
+headers.txt.gz
+damage-floods-blockages-shelters-classifications.csv
+planetary-response-network-and-rescue-global-caribbean-storms-2017-subjects.csv
+question_extractor_test.csv
 question_extractor_example.csv
+output_test-blanks.csv
