@@ -8,10 +8,10 @@ Extract from raw exports (via Coleman's workflow extractor) to separate flat .cs
 - And 'test' is the desired file suffix
 
 # Output
-'data_points_test.csv': 'blockages', 'floods', 'shelters' contain lon/lat for each point. 'damage' contains lon/lat/details for each point. Both as python list of tuples. 
+- 'data_points_test.csv': 'blockages', 'floods', 'shelters' contain lon/lat for each point. 'damage' contains lon/lat/details for each point. Both as python list of tuples. 
 
-'data_questions_test.csv': 'structures' contains answer to number of structures (None, <10, 10-30, >30) as strings
+- 'data_questions_test.csv': 'structures' contains answer to number of structures (None, <10, 10-30, >30) as strings
 
-'data_shortcuts_test.csv': 'unclassifiable' contains 1 if image declared unclassifiable. 'only ocean' contains 1 if image declared to contain no land
+- 'data_shortcuts_test.csv': 'unclassifiable' contains 1 if image declared unclassifiable. 'only ocean' contains 1 if image declared to contain no land
 
-'data_blanks_test.csv': contains metadata of skipped classfications
+- 'data_blanks_test.csv': contains metadata of skipped classfications

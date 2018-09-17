@@ -21,7 +21,13 @@ try:
 except:
     metafile = "test_data/planetary-response-network-and-rescue-global-caribbean-storms-2017-subjects.csv"
 
-# the order of tools is from the workflow information - as is the fact the
+try:
+    suffix = sys.argv[4]
+except:
+    suffix = 'test'
+
+
+# the order of tools is from the workflow information
 # marks are in task T2
 tools = ['Road Blockage', 'Flood', 'Temporary Settlement', 'Structural Damage']
 
@@ -125,7 +131,8 @@ for i, row in classifications_points.iterrows():
 
 
 points_outfile = pd.DataFrame(points_temp, columns=column_points)
-points_outfile[points_included_cols].to_csv('output_test-points.csv', index=False)
+filename = 'data_points_' + str(suffix) + '.csv'
+points_outfile[points_included_cols].to_csv(filename, index=False)
 
 
 ## Classify questions, shortcuts and non-answers
@@ -191,10 +198,13 @@ for i, row in classifications_questions.iterrows():
         break
 
 questions_outfile = pd.DataFrame(questions_temp, columns=column_questions)
-questions_outfile[questions_included_cols].to_csv('output_test-questions.csv', index=False)
+filename = 'data_questions_' + str(suffix) + '.csv'
+questions_outfile[questions_included_cols].to_csv(filename, index=False)
 
 shortcuts_outfile = pd.DataFrame(shortcuts_temp, columns=column_shortcuts)
-shortcuts_outfile[shortcuts_included_cols].to_csv('output_test-shortcuts.csv', index=False)
+filename = 'data_shortcuts_' + str(suffix) + '.csv'
+shortcuts_outfile[shortcuts_included_cols].to_csv(filename, index=False)
 
 blanks_outfile = pd.DataFrame(blanks_temp, columns=column_blanks)
-questions_outfile[blanks_included_cols].to_csv('output_test-blanks.csv', index=False)
+filename = 'data_blanks_' + str(suffix) + '.csv'
+questions_outfile[blanks_included_cols].to_csv(filename, index=False)

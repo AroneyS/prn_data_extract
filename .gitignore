@@ -117,3 +117,7 @@ question_extractor_example.csv
 output_test-blanks.csv
 point_extractor_by_frame_example.csv
 point_extractor_by_frame_test.csv
+data_blanks_test.csv
+data_points_test.csv
+data_shortcuts_test.csv
+data_questions_test.csv
