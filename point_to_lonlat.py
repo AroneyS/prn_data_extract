@@ -48,13 +48,13 @@ def get_coords_mark(markinfo):
 
     return f_x_lon(mark_x), f_y_lat(mark_y)
 
-'''
+
 classifications_points = pd.read_csv(pointfile)
 #print(classifications_points.head(2))
-#print(classifications_points.columns)'''
+#print(classifications_points.columns)
 
 classifications_questions = pd.read_csv(questionfile)
-'''
+
 # Make subject dictionary with id as key and metadata
 subjects_all = pd.read_csv(metafile)
 subjects_dict = {}
@@ -106,7 +106,7 @@ for i, row in classifications_points.iterrows():
         break
 
 points_outfile.to_csv('output_test-points.csv')
-'''
+
 
 column_names = classifications_questions.columns.values.tolist()
 # classification_id,user_name,user_id,workflow_id,task,created_at,subject_id,extractor,data.10-to-30,data.None,data.aggregation_version,data.more-than-30,data.none,data.ocean-only-no-land,data.unclassifiable-image,data.up-to-10
@@ -155,7 +155,7 @@ for i, row in classifications_questions.iterrows():
         shortcuts_temp.append(temp)
 
     # Unsure. Either no answer or an answer of no structures
-    # If former, group with else: to form blanks document
+    # If former, group with else: to form blanks document? Or do else: represent those that added points but didnt answer structures
     elif row['data.None'] == 1.00:
         print('Unspecified')
 

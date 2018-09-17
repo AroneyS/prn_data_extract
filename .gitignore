@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+output_test-points.csv
+output_test-questions.csv
+output_test-shortcuts.csv
+output_test.csv
+outputs/coleman_output.txt.gz
+outputs/headers.txt.gz
