@@ -59,10 +59,8 @@ def get_coords_mark(markinfo):
 
 classifications_points = pd.read_csv(pointfile)
 column_names = classifications_points.columns.values.tolist()
-# classification_id,user_name,user_id,workflow_id,task,created_at,subject_id,extractor,data.aggregation_version,
-# data.frame{1/0}.T0_tool{3/2/1/0}_{x/y/details} (x18)
-base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'task', 'created_at',
- 'subject_id', 'extractor','data.aggregation_version']
+# classification_id,user_name,user_id,workflow_id,task,created_at,subject_id,extractor,data.aggregation_version,data.frame{1/0}.T0_tool{3/2/1/0}_{x/y/details}
+base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'task', 'created_at', 'subject_id', 'extractor','data.aggregation_version']
 
 
 # Make subject dictionary with id as key and metadata
@@ -72,8 +70,7 @@ for index, row in subjects_all.iterrows():
     subjects_dict[row['subject_id']] = eval(row['metadata'])
 print('Files loaded successfully')
 
-column_points_extras = ['tool', 'label', 'how_damaged', 'frame', 'x', 'y', 'lon_mark', 'lat_mark',
- 'lon_min', 'lon_max', 'lat_min', 'lat_max', 'imsize_x_pix', 'imsize_y_pix']
+column_points_extras = ['blockages', 'floods', 'shelters', 'damage']
 column_points = column_names + column_points_extras
 points_included_cols = base_columns + column_points_extras
 points_temp = []
@@ -99,47 +96,38 @@ for i, row in classifications_points.iterrows():
 
             if markinfo['x'] != None and markinfo['y'] != None:
                 (lon, lat) = get_coords_mark(markinfo)
+                coords = []
+                if tool == 3: #Tool 3 is Structural damage which can also include further details
+                    detail_list = eval(row[basename + 'details'])
+                    for j in range(len(lon)):
+                        detail = list(detail_list[j][0])[0]
+                        if detail == 'None':
+                            detail = 'Unspecified'
+                        else:
+                            detail = details[int(detail)]
+                        coords.append(( lon[j], lat[j], detail ))
+                else:
+                    for j in range(len(lon)):
+                        coords.append(( lon[j], lat[j] ))
+
+                temp = row.tolist()
+                counter = 0
+                while counter < tool:
+                    temp.append('')
+                    counter += 1
                 
-                for j in range(len(lon)):
-                    data_temp = []
-                    if tool == 3: #Tool 3 is Structural damage which can also include further details
-                        detail_list = eval(row[basename + 'details'])
-                        for j in range(len(lon)):
-                            detail = list(detail_list[j][0])[0]
-                            if detail == 'None':
-                                detail = 'Unspecified'
-                            else:
-                                detail = details[int(detail)]
-                    else:
-                        detail = ''
-# Append order: ['tool', 'label', 'how_damaged', 'frame', 'x', 'y', 'lon_mark', 'lat_mark',
-# 'lon_min', 'lon_max', 'lat_min', 'lat_max', 'imsize_x_pix', 'imsize_y_pix']
-                    data_temp.append(tool) #tool
-                    data_temp.append(name) #label
-                    data_temp.append(detail) #how_damaged
-                    data_temp.append(df) #frame
-                    data_temp.append(markinfo['x'][j]) #x
-                    data_temp.append(markinfo['y'][j]) #y
-                    data_temp.append(lon[j]) #lon_mark
-                    data_temp.append(lat[j]) #lat_mark
-                    data_temp.append(markinfo['lon_min']) #lon_min
-                    data_temp.append(markinfo['lon_max']) #lon_max
-                    data_temp.append(markinfo['lat_min']) #lat_min
-                    data_temp.append(markinfo['lat_max']) #lat_max
-                    data_temp.append(markinfo['imsize_x_pix']) #imsize_x_pix
-                    data_temp.append(markinfo['imsize_y_pix']) #imsize_y_pix
+                temp.append(str(coords))
 
-                    temp = row.tolist()
-                    temp.append(data_temp)
-                    points_temp.append(temp)
+                counter = 0
+                while counter + tool < 3:
+                    temp.append('')
+                    counter += 1
 
-    if i % 100 == 0:
-        print('Done: ' + str(i) + '/282,783')
-    if i > 1000:
-        break
+                points_temp.append(temp)
 
-print(len(points_temp[5]))
-print(len(column_points))
+    print('Done: ' + str(i) + '/282,783')
+
+
 points_outfile = pd.DataFrame(points_temp, columns=column_points)
 filename = 'data_points_' + str(suffix) + '.csv'
 points_outfile[points_included_cols].to_csv(filename, index=False)
@@ -203,10 +191,7 @@ for i, row in classifications_questions.iterrows():
         temp = row.tolist()
         blanks_temp.append
 
-    if i % 100 == 0:
-        print('Done: ' + str(i))
-    if i > 1000:
-        break
+    print('Done: ' + str(i))
     
 
 questions_outfile = pd.DataFrame(questions_temp, columns=column_questions)
