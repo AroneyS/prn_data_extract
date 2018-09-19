@@ -130,16 +130,15 @@ for i, row in classifications_points.iterrows():
                     data_temp.append(markinfo['imsize_y_pix']) #imsize_y_pix
 
                     temp = row.tolist()
-                    temp.append(data_temp)
+                    temp = temp + data_temp
                     points_temp.append(temp)
 
     if i % 100 == 0:
-        print('Done: ' + str(i) + '/282,783')
+        print('Done: ' + str(i))
     if i > 1000:
         break
 
-print(len(points_temp[5]))
-print(len(column_points))
+
 points_outfile = pd.DataFrame(points_temp, columns=column_points)
 filename = 'data_points_' + str(suffix) + '.csv'
 points_outfile[points_included_cols].to_csv(filename, index=False)
