@@ -62,7 +62,7 @@ column_names = classifications_points.columns.values.tolist()
 # classification_id,user_name,user_id,workflow_id,task,created_at,subject_id,extractor,data.aggregation_version,
 # data.frame{1/0}.T0_tool{3/2/1/0}_{x/y/details} (x18)
 base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'task', 'created_at',
- 'subject_id', 'extractor','data.aggregation_version']
+                'subject_id', 'extractor','data.aggregation_version']
 
 
 # Make subject dictionary with id as key and metadata
@@ -112,22 +112,26 @@ for i, row in classifications_points.iterrows():
                                 detail = details[int(detail)]
                     else:
                         detail = ''
-# Append order: ['tool', 'label', 'how_damaged', 'frame', 'x', 'y', 'lon_mark', 'lat_mark',
-# 'lon_min', 'lon_max', 'lat_min', 'lat_max', 'imsize_x_pix', 'imsize_y_pix']
-                    data_temp.append(tool) #tool
-                    data_temp.append(name) #label
-                    data_temp.append(detail) #how_damaged
-                    data_temp.append(df) #frame
-                    data_temp.append(markinfo['x'][j]) #x
-                    data_temp.append(markinfo['y'][j]) #y
-                    data_temp.append(lon[j]) #lon_mark
-                    data_temp.append(lat[j]) #lat_mark
-                    data_temp.append(markinfo['lon_min']) #lon_min
-                    data_temp.append(markinfo['lon_max']) #lon_max
-                    data_temp.append(markinfo['lat_min']) #lat_min
-                    data_temp.append(markinfo['lat_max']) #lat_max
-                    data_temp.append(markinfo['imsize_x_pix']) #imsize_x_pix
-                    data_temp.append(markinfo['imsize_y_pix']) #imsize_y_pix
+                    # Append order: 'tool', 'label', 'how_damaged', 'frame', 'x', 'y',
+                    #               'lon_mark', 'lat_mark', 'lon_min', 'lon_max', 'lat_min',
+                    #               'lat_max', 'imsize_x_pix', 'imsize_y_pix'
+                    add_temp = [
+                                tool, 
+                                name, 
+                                detail, 
+                                df, 
+                                markinfo['x'][j], 
+                                markinfo['y'][j],
+                                lon[j],
+                                lat[j], 
+                                markinfo['lon_min'], 
+                                markinfo['lon_max'], 
+                                markinfo['lat_min'], 
+                                markinfo['lat_max'], 
+                                markinfo['imsize_x_pix'], 
+                                markinfo['imsize_y_pix']
+                    ]
+                    temp = temp + add_temp
 
                     temp = row.tolist()
                     temp = temp + data_temp
@@ -149,14 +153,15 @@ points_outfile[points_included_cols].to_csv(filename, index=False)
 classifications_questions = pd.read_csv(questionfile)
 column_names = classifications_questions.columns.values.tolist()
 # classification_id,user_name,user_id,workflow_id,task,created_at,subject_id,extractor,data.10-to-30,data.None,data.aggregation_version,data.more-than-30,data.none,data.ocean-only-no-land,data.unclassifiable-image,data.up-to-10
-base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'task', 'created_at', 'subject_id', 'extractor','data.aggregation_version']
+base_columns = ['classification_id', 'user_name', 'user_id', 'workflow_id', 'task',
+                'created_at', 'subject_id', 'extractor','data.aggregation_version']
 
-column_questions_extras = ['structures']
+column_questions_extras = ['question', 'label']
 column_questions = column_names + column_questions_extras
 questions_included_cols = base_columns + column_questions_extras
 questions_temp = []
 
-column_shortcuts_extras = ['unclassifiable', 'only_ocean']
+column_shortcuts_extras = ['label']
 column_shortcuts = column_names + column_shortcuts_extras
 shortcuts_included_cols = base_columns + column_shortcuts_extras
 shortcuts_temp = []
@@ -170,31 +175,33 @@ for i, row in classifications_questions.iterrows():
     # Number of structures visible
     if row['data.None'] == 1.00:
         temp = row.tolist()
+        temp.append('t2_approximately_ho__s_your_estimate')
         temp.append('None')
         questions_temp.append(temp)
     elif row['data.up-to-10'] == 1.00:
         temp = row.tolist()
+        temp.append('t2_approximately_ho__s_your_estimate')
         temp.append('<10')
         questions_temp.append(temp)
     elif row['data.10-to-30'] == 1.00:
         temp = row.tolist()
+        temp.append('t2_approximately_ho__s_your_estimate')
         temp.append('10-30')
         questions_temp.append(temp)
     elif row['data.more-than-30'] == 1.00:
         temp = row.tolist()
+        temp.append('t2_approximately_ho__s_your_estimate')
         temp.append('>30')
         questions_temp.append(temp)
     
     # Shortcuts (no answer to any questions)
     elif row['data.unclassifiable-image'] == 1.00:
         temp = row.tolist()
-        temp.append(1)
-        temp.append('')
+        temp.append('Unclassifiable Image')
         shortcuts_temp.append(temp)
     elif row['data.ocean-only-no-land'] == 1.00:
         temp = row.tolist()
-        temp.append('')
-        temp.append(1)
+        temp.append('Ocean Only (no land)')
         shortcuts_temp.append(temp)
 
     # No answer given
