@@ -4,7 +4,7 @@ Extract from raw exports (via Coleman's workflow extractor) to separate flat .cs
 1. Extract data as per https://aggregation-caesar.zooniverse.org/Scripts.html#extracting-data
 2. Run `python3 cleanup_workflow_output.py point_extractor_by_frame_example.csv question_extractor_example.csv subjects_metadata_file.csv test`
 - Where 'point_extractor_by_frame_example.csv' and 'question_extractor_example.csv' are outputs from 1
-- And 'subjects_metadata_file.csv' is the metadata of the subjects (images), containing corner longitude and lattitude
+- And 'subjects_metadata_file.csv' is the metadata of the subjects (images), containing edge longitude and lattitude and image size
 - And 'test' is the desired file suffix
 
 # Output (with 'test' as suffix)
