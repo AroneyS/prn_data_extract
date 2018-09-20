@@ -7,15 +7,7 @@ Extract from raw exports (via Coleman's workflow extractor) to separate flat .cs
 - And 'subjects_metadata_file.csv' is the metadata of the subjects (images), containing corner longitude and lattitude
 - And 'test' is the desired file suffix
 
-# Output
-All outputs end with the following subject infomation: 
-    1. 'lon_min' -- longitude at edge of image
-    2. 'lon_max' -- longitude at other edge of image
-    3. 'lat_min' -- latitude at edge of image
-    4. 'lat_max' -- latitude at other edge of image
-    5. 'imsize_x_pix' -- width of image (pixel)
-    6. 'imsize_y_pix' -- height of image (pixel)
-
+# Output (with 'test' as suffix)
 - 'data_points_test.csv': Marks data output
     1. 'tool' -- 0, 1, 2, 3, corresponding to 'label'
     2. 'label' -- 'blockages', 'floods', 'shelters', 'damage' indicating mark type
@@ -33,3 +25,11 @@ All outputs end with the following subject infomation:
     1. 'label' --  contains 'Unclassifiable Image' if image declared unclassifiable or 'Ocean Only (no land)' if image declared to contain no land
 
 - 'data_blanks_test.csv': contains the metadata of skipped classfications
+
+- All outputs end with the following subject infomation: 
+    1. 'lon_min' -- longitude at edge of image
+    2. 'lon_max' -- longitude at other edge of image
+    3. 'lat_min' -- latitude at edge of image
+    4. 'lat_max' -- latitude at other edge of image
+    5. 'imsize_x_pix' -- width of image (pixel)
+    6. 'imsize_y_pix' -- height of image (pixel)
