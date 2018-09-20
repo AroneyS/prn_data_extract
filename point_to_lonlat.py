@@ -136,15 +136,15 @@ for i, row in classifications_points.iterrows():
                     points_temp.append(temp)
 
     if i % 100 == 0:
-        print('Done: ' + str(i))
-    if i > 1000:
-        break
+        print('Points done: ' + str(i))
+    #if i > 1000:
+    #    break
 
 
 points_outfile = pd.DataFrame(points_temp, columns=column_points)
 filename = 'data_points_' + str(suffix) + '.csv'
 points_outfile[points_included_cols].to_csv(filename, index=False)
-
+print('data_points_' + str(suffix) + '.csv' + ' file created successfully')
 
 ## Classify questions, shortcuts and non-answers
 
@@ -228,19 +228,24 @@ for i, row in classifications_questions.iterrows():
         blanks_temp.append
 
     if i % 100 == 0:
-        print('Done: ' + str(i))
-    if i > 1000:
-        break
+        print('Questions done: ' + str(i))
+    #if i > 1000:
+    #    break
     
 
 questions_outfile = pd.DataFrame(questions_temp, columns=column_questions)
 filename = 'data_questions_' + str(suffix) + '.csv'
 questions_outfile[questions_included_cols].to_csv(filename, index=False)
+print('data_questions_' + str(suffix) + '.csv' + ' file created successfully')
+
 
 shortcuts_outfile = pd.DataFrame(shortcuts_temp, columns=column_shortcuts)
 filename = 'data_shortcuts_' + str(suffix) + '.csv'
 shortcuts_outfile[shortcuts_included_cols].to_csv(filename, index=False)
+print('data_shortcuts_' + str(suffix) + '.csv' + ' file created successfully')
+
 
 blanks_outfile = pd.DataFrame(blanks_temp, columns=column_blanks)
 filename = 'data_blanks_' + str(suffix) + '.csv'
 questions_outfile[blanks_included_cols].to_csv(filename, index=False)
+print('data_blanks_' + str(suffix) + '.csv' + ' file created successfully')
