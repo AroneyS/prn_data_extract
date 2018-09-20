@@ -140,7 +140,7 @@ for i, row in classifications_points.iterrows():
     #if i > 1000:
     #    break
 
-print('Points done: {0}'.format(i) + f"{i:,d}")
+print('Points done: ' + f"{i:,d}")
 points_outfile = pd.DataFrame(points_temp, columns=column_points)
 filename = 'data_points_' + str(suffix) + '.csv'
 points_outfile[points_included_cols].to_csv(filename, index=False)
