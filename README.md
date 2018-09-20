@@ -8,7 +8,7 @@ Extract from raw exports (via Coleman's workflow extractor) to separate flat .cs
 - And 'test' is the desired file suffix
 
 # Output
-- All outputs end with the following subject infomation: 
+All outputs end with the following subject infomation: 
     1. 'lon_min' -- longitude at edge of image
     2. 'lon_max' -- longitude at other edge of image
     3. 'lat_min' -- latitude at edge of image
